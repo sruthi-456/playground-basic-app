@@ -1,0 +1,89 @@
+<div class="container">
+<div class="card m-12">
+    <h1 class="bd-title card-header" id="content">Dynamic validation example</h1>
+    <div class="card-body">
+        <form [formGroup]="questionFormGroup" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-row" *ngFor="let row of dynamicJSON; let i = index;">
+                <div class="form-group col">
+                    <div *ngIf="row.type == 'boolean'" class="form-group col-12 radio-section">
+                        <label> {{row.text}}</label>
+                        <div class="block">
+                            <label>Yes</label>
+                            <input formControlName="value" type="radio" value="Yes" class="radiobutton form-control col-2" required />
+                        </div>
+                        <div class="block">
+                            <label>No </label>
+                            <input formControlName="value" type="radio" value="No" class="form-control col-2" required />
+                        </div>
+                        <div class="invalid" *ngIf="submitted && f.value.status == 'INVALID'">{{row.text}} is requred!</div>                      
+                    </div>
+                    <fieldset *ngIf="row.type == 'group'">
+                        <legend>{{row.text}}</legend>
+                        <div *ngFor="let r of row.item" class="form-group col-12">                            
+                            <div *ngIf="r.linkId==2.1||r.linkId==2.2||r.linkId==2.3||r.linkId==2.4">  
+                                <div *ngIf="r.linkId==2.1">
+                                    <label>{{r.text}}</label>
+                                    <select formControlName="{{r.linkId}}" class="form-control selectbox">
+                                        <option disabled selected>Select Gender</option>
+                                        <option>Male</option>
+                                        <option >Female</option>                                       
+                                    </select>
+                                </div>
+                                <div *ngIf="r.linkId==2.2">
+                                    <label>{{r.text}}</label>
+                                    <input formControlName="{{r.linkId}}" [type]="r.type == 'string' ? 'text' : r.type"
+                                    class="form-control" required />
+                                </div>
+                                <div *ngIf="r.linkId==2.3">
+                                    <label>{{r.text}}</label>
+                                    <select formControlName="{{r.linkId}}" class="form-control">
+                                        <option disabled selected>Select Country</option>
+                                        <option>UK</option>
+                                        <option >US</option>                                       
+                                    </select>
+                                </div>
+                                <div *ngIf="r.linkId==2.4">
+                                    <label>{{r.text}}</label>
+                                    <select formControlName="{{r.linkId}}" class="form-control">
+                                        <option disabled selected>Select Marital Status</option>
+                                        <option>Single</option>
+                                        <option >Married</option>   
+                                        <option >Divorced</option>                                    
+                                    </select>
+                                </div>
+                                <div class="invalid" *ngIf="submitted && f[r.linkId]['status'] == 'INVALID'">{{r.text}} is required!
+                                </div>
+                            </div>
+                            <div *ngIf="r.linkId==3.1||r.linkId==3.2" class="radio-section">
+                                <label>{{r.text}}</label>
+                                <div class="block">
+                                    <label>Yes</label>
+                                    <input formControlName="{{r.linkId}}" type="radio" value="Yes" class="form-control col-2" required />
+                                </div>
+                                <div class="block">
+                                    <label>No </label>
+                                    <input formControlName="{{r.linkId}}" type="radio" value="No" class="form-control col-2" required />
+                                </div>
+                                <div class="invalid" *ngIf="submitted && f[r.linkId]['status'] == 'INVALID'">{{row.text}} is requred!</div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <button class="btn btn-primary">Submit</button>
+        </form>        
+    </div>
+    <div class="show-response col-12">
+        <h4><b>Response</b></h4>
+        {{showData|json}}
+    <!-- 
+        <p>Allergies: {{showData ? showData['value'] : ''}}</p>
+        <p>Gender: {{showData ? showData['2.1'] : ''}}</p>
+        <p>DOB: {{showData ? showData['2.2'] : ''}}</p>
+        <p>Country: {{showData ? showData['2.3'] : ''}}</p>
+        <p>Marital Status: {{showData ? showData['2.4'] : ''}}</p>
+        <p>Smoke: {{showData ? showData['3.1'] : ''}}</p>
+        <p>Alcohol: {{showData ? showData['3.2'] : ''}}</p> -->
+    </div>
+</div>
+</div>

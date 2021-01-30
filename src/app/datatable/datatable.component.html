@@ -1,0 +1,40 @@
+
+ <div class="search-in-table">
+    Name:
+    <input type="text" [(ngModel)]="namesearch"  pattern="[a-zA-Z ]*" placeholder="Search by name"/>
+    <div *ngIf="namesearch?namesearch.invalid:''">Invalid</div>
+    Birth Date:
+    <input type="date" [(ngModel)]="birthdate" placeholder="Search by birth date"/>
+    <button (click)="searchbyinput(namesearch,birthdate)">Search</button>
+</div>
+
+<table style="border:1px;">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>City</td>
+        <td>Gender</td>
+        <td>Birth Date</td>
+        <td>Resource Type</td>
+        <td>Family</td>
+    </tr> 
+</thead>
+<tbody>
+    <tr *ngFor="let item of data">
+        <td>{{item['resource']['id'] ? item['resource']['id'] : ''}}</td>
+        <td>{{ item['resource']['name'] ?item['resource']['name'][0]['given'][0]:''}}</td>
+        <td>{{item['resource']['address'] ? item['resource']['address'][0]['city'] : ' '}}</td>
+        <td>{{item['resource']['gender'] ? item['resource']['gender'] : ''}}</td>
+        <td>{{item['resource']['birthDate'] ? item['resource']['birthDate'] : ''}}</td>
+        <td>{{item['resource']['resourceType'] ? item['resource']['resourceType'] : ''}}</td>
+        <td>{{ item['resource']['name'] ? item['resource']['name'][0]['family']:''}}</td>
+        
+    </tr>
+</tbody>
+   
+</table>
+
+<div class="footer">
+    Time taken by patient API to complete : {{timeOfRequest| date:'HH:mm:ss'}} ms
+</div>
